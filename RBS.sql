@@ -140,8 +140,7 @@ DROP TABLE IF EXISTS `group`;
 CREATE TABLE `group` (
   `Group_id` int NOT NULL,
   `Name` varchar(45) NOT NULL,
-  PRIMARY KEY (`Group_id`),
-  CONSTRAINT `gp_customer_id_fk` FOREIGN KEY (`Group_id`) REFERENCES `customer` (`Custimer_id`)
+  PRIMARY KEY (`Group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -207,7 +206,7 @@ CREATE TABLE `order_food` (
   `Order_id` int NOT NULL,
   `Restaurant_id` int NOT NULL,
   `Food_id` int NOT NULL,
-  `Wait_time` int NOT NULL,
+  `Comment_time` int NOT NULL,
   `Rating` int DEFAULT NULL,
   `Comment` varchar(99) DEFAULT NULL,
   `Notes` varchar(99) DEFAULT NULL,
