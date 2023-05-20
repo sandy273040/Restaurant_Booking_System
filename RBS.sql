@@ -206,7 +206,7 @@ CREATE TABLE `order_food` (
   `Order_id` int NOT NULL,
   `Restaurant_id` int NOT NULL,
   `Food_id` int NOT NULL,
-  `Comment_time` int NOT NULL,
+  `Comment_time` datetime NOT NULL,
   `Rating` int DEFAULT NULL,
   `Comment` varchar(99) DEFAULT NULL,
   `Notes` varchar(99) DEFAULT NULL,
@@ -223,7 +223,7 @@ CREATE TABLE `order_food` (
 
 LOCK TABLES `order_food` WRITE;
 /*!40000 ALTER TABLE `order_food` DISABLE KEYS */;
-INSERT INTO `order_food` VALUES (1,1,1,5,1,'我覺得不行',NULL),(1,1,2,5,2,'普通','加滷蛋'),(2,3,1,10,4,'好吃',NULL),(2,3,2,10,5,'超好吃','加大');
+INSERT INTO `order_food` VALUES (1,1,1,'2023-05-08 17:21:15',1,'我覺得不行',NULL),(1,1,2,'2023-05-08 17:23:15',2,'普通','加滷蛋'),(2,3,1,'2023-05-06 17:21:15',4,'好吃',NULL),(2,3,2,'2023-05-06 17:23:15',5,'超好吃','加大');
 /*!40000 ALTER TABLE `order_food` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -293,4 +293,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-10 23:36:22
+-- Dump completed on 2023-05-21  1:37:17
