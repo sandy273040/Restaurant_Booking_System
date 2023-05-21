@@ -23,12 +23,12 @@ DROP TABLE IF EXISTS `customer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `customer` (
-  `Custimer_id` int NOT NULL,
+  `Customer_id` int NOT NULL AUTO_INCREMENT,
   `Account` varchar(20) NOT NULL,
   `Password` varchar(20) NOT NULL,
   `Phone` varchar(20) NOT NULL,
   `Name` varchar(45) NOT NULL,
-  PRIMARY KEY (`Custimer_id`),
+  PRIMARY KEY (`Customer_id`),
   UNIQUE KEY `Account_UNIQUE` (`Account`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -58,7 +58,7 @@ CREATE TABLE `customer_food_favorite` (
   KEY `Food_id_idx` (`Food_id`),
   KEY `Restaurant_id_idx` (`Restaurant_id`),
   CONSTRAINT `cff_estaurant_id_fk` FOREIGN KEY (`Restaurant_id`) REFERENCES `restaurant` (`Restaurant_id`),
-  CONSTRAINT `cff_ustomer_id_fk` FOREIGN KEY (`Customer_id`) REFERENCES `customer` (`Custimer_id`)
+  CONSTRAINT `cff_ustomer_id_fk` FOREIGN KEY (`Customer_id`) REFERENCES `customer` (`Customer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -84,7 +84,7 @@ CREATE TABLE `customer_restaurant_favorite` (
   `Restaurant_id` int NOT NULL,
   PRIMARY KEY (`Customer_id`,`Restaurant_id`),
   KEY `restaurant_id_fk_idx` (`Restaurant_id`),
-  CONSTRAINT `crf_customer_id_fk` FOREIGN KEY (`Customer_id`) REFERENCES `customer` (`Custimer_id`),
+  CONSTRAINT `crf_customer_id_fk` FOREIGN KEY (`Customer_id`) REFERENCES `customer` (`Customer_id`),
   CONSTRAINT `crf_restaurant_id_fk` FOREIGN KEY (`Restaurant_id`) REFERENCES `restaurant` (`Restaurant_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -138,7 +138,7 @@ DROP TABLE IF EXISTS `group`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `group` (
-  `Group_id` int NOT NULL,
+  `Group_id` int NOT NULL AUTO_INCREMENT,
   `Name` varchar(45) NOT NULL,
   PRIMARY KEY (`Group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -180,7 +180,7 @@ CREATE TABLE `order` (
   KEY `order_restaurant_id_fk_idx` (`Restaurant_id`),
   KEY `ordder_gp_id_fk_idx` (`Group_id`),
   CONSTRAINT `ordder_gp_id_fk` FOREIGN KEY (`Group_id`) REFERENCES `group` (`Group_id`),
-  CONSTRAINT `order_customer_id_fk` FOREIGN KEY (`Customer_id`) REFERENCES `customer` (`Custimer_id`),
+  CONSTRAINT `order_customer_id_fk` FOREIGN KEY (`Customer_id`) REFERENCES `customer` (`Customer_id`),
   CONSTRAINT `order_restaurant_id_fk` FOREIGN KEY (`Restaurant_id`) REFERENCES `restaurant` (`Restaurant_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -206,7 +206,7 @@ CREATE TABLE `order_food` (
   `Order_id` int NOT NULL,
   `Restaurant_id` int NOT NULL,
   `Food_id` int NOT NULL,
-  `Comment_time` int NOT NULL,
+  `Comment_time` datetime NOT NULL,
   `Rating` int DEFAULT NULL,
   `Comment` varchar(99) DEFAULT NULL,
   `Notes` varchar(99) DEFAULT NULL,
@@ -223,7 +223,7 @@ CREATE TABLE `order_food` (
 
 LOCK TABLES `order_food` WRITE;
 /*!40000 ALTER TABLE `order_food` DISABLE KEYS */;
-INSERT INTO `order_food` VALUES (1,1,1,5,1,'我覺得不行',NULL),(1,1,2,5,2,'普通','加滷蛋'),(2,3,1,10,4,'好吃',NULL),(2,3,2,10,5,'超好吃','加大');
+INSERT INTO `order_food` VALUES (1,1,1,'2023-05-08 17:21:15',1,'我覺得不行',NULL),(1,1,2,'2023-05-08 17:23:15',2,'普通','加滷蛋'),(2,3,1,'2023-05-06 17:21:15',4,'好吃',NULL),(2,3,2,'2023-05-06 17:23:15',5,'超好吃','加大');
 /*!40000 ALTER TABLE `order_food` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -239,7 +239,7 @@ CREATE TABLE `registration` (
   `Customer_id` int NOT NULL,
   PRIMARY KEY (`Group_id`,`Customer_id`),
   KEY `regis_customer_id_fk_idx` (`Customer_id`),
-  CONSTRAINT `regis_customer_id_fk` FOREIGN KEY (`Customer_id`) REFERENCES `customer` (`Custimer_id`),
+  CONSTRAINT `regis_customer_id_fk` FOREIGN KEY (`Customer_id`) REFERENCES `customer` (`Customer_id`),
   CONSTRAINT `regis_gp_id_fk` FOREIGN KEY (`Group_id`) REFERENCES `group` (`Group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -262,7 +262,7 @@ DROP TABLE IF EXISTS `restaurant`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `restaurant` (
-  `Restaurant_id` int NOT NULL,
+  `Restaurant_id` int NOT NULL AUTO_INCREMENT,
   `Account` varchar(20) NOT NULL,
   `Password` varchar(20) NOT NULL,
   `Name` varchar(45) NOT NULL,
@@ -293,4 +293,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-10 23:36:22
+-- Dump completed on 2023-05-21  1:47:36
