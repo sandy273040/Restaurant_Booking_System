@@ -206,7 +206,7 @@ CREATE TABLE `order_food` (
   `Order_id` int NOT NULL,
   `Restaurant_id` int NOT NULL,
   `Food_id` int NOT NULL,
-  `Comment_time` datetime NOT NULL,
+  `Comment_time` datetime DEFAULT NULL,
   `Rating` int DEFAULT NULL,
   `Comment` varchar(99) DEFAULT NULL,
   `Notes` varchar(99) DEFAULT NULL,
