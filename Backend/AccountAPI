@@ -1,0 +1,97 @@
+import mysql.connector
+from flask import Flask, jsonify, request
+from config import *
+app = Flask(__name__)
+
+# Define MySQL connection information
+cnx = mysql.connector.connect(user= DATABASE_USERNAME, password= DATABASE_PASSWORD, host= DATABASE_HOST, database= DATABASE_NAME)
+
+# create cursor
+cursor = cnx.cursor()
+
+# RA Read All accounts
+@app.route('/account', methods=['GET'])
+def get_accounts():
+    query = "SELECT * FROM accounts"
+    cursor.execute(query)
+    result = cursor.fetchall()
+
+    accounts = []
+    for account in result:
+        account_data = {
+            'id': account[0],
+            'name': account[1],
+            'email': account[2]
+        }
+        accounts.append(account_data)
+
+    return jsonify(accounts)
+
+# R Read account
+@app.route('/account/<int:account_id>', methods=['GET'])
+def get_account(account_id):
+    query = "SELECT * FROM accounts WHERE id = %s"
+    cursor.execute(query, (account_id,))
+    result = cursor.fetchone()
+
+    if result:
+        account_data = {
+            'id': result[0],
+            'name': result[1],
+            'email': result[2]
+        }
+        return jsonify(account_data)
+    else:
+        return jsonify({'error': 'Account not found'})
+
+# C create customer account
+@app.route('/accounts', methods=['POST'])
+def create_account():
+    name = request.json['name']
+    email = request.json['email']
+    password = request.json['password']
+    query = "INSERT INTO accounts (name, email,password) VALUES (%s, %s, %s)"
+    cursor.execute(query, (name, email, password))
+    cnx.commit()
+
+    return jsonify({'message': 'Account created'})
+
+# C create restaurant account
+@app.route('/accounts', methods=['POST'])
+def create_account():
+    name = request.json['name']
+    email = request.json['email']
+    password = request.json['password']
+    query = "INSERT INTO accounts (name, email,password) VALUES (%s, %s, %s)"
+    cursor.execute(query, (name, email, password))
+    cnx.commit()
+
+    return jsonify({'message': 'Account created'})    
+
+# U update account
+@app.route('/accounts/<int:account_id>', methods=['PATCH'])
+def update_account(account_id):
+    name = request.json['name']
+    email = request.json['email']
+    password = request.json['password']
+    account_id = request.json['account_id']
+    
+    query = "UPDATE accounts SET name = %s, email = %s, password = %s WHERE id = %s"
+    cursor.execute(query, (name, email, password, account_id))
+
+    cnx.commit()
+
+    return jsonify({'message': 'Account updated'})
+
+# D delete account
+@app.route('/accounts/<int:account_id>', methods=['DELETE'])
+def delete_account(account_id):
+    query = "DELETE FROM accounts WHERE id = %s"
+    cursor.execute(query, (account_id,))
+    cnx.commit()
+    return jsonify({'message': 'Account deleted'})
+
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
