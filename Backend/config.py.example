@@ -1,0 +1,6 @@
+# config.py make config.py.example >>> config.py to work
+
+DATABASE_HOST = '127.0.0.1'
+DATABASE_NAME = 'dbfp'
+DATABASE_USERNAME = 'root'
+DATABASE_PASSWORD = 'yourpassword'
