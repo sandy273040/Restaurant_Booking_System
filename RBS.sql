@@ -224,7 +224,7 @@ CREATE TABLE `order_food` (
 
 LOCK TABLES `order_food` WRITE;
 /*!40000 ALTER TABLE `order_food` DISABLE KEYS */;
-INSERT INTO `order_food` VALUES (1,1,1,'2023-05-08 17:21:15',1,'我覺得不行',NULL),(1,1,2,'2023-05-08 17:23:15',2,'普通','加滷蛋'),(2,3,1,'2023-05-06 17:21:15',4,'好吃',NULL),(2,3,2,'2023-05-06 17:23:15',5,'超好吃','加大');
+INSERT INTO `order_food` VALUES (1,1,1,2,'2023-05-08 17:21:15',1,'我覺得不行',NULL),(1,1,2,2,'2023-05-08 17:23:15',2,'普通','加滷蛋'),(2,3,1,2,'2023-05-06 17:21:15',4,'好吃',NULL),(2,3,2,2,'2023-05-06 17:23:15',5,'超好吃','加大');
 /*!40000 ALTER TABLE `order_food` ENABLE KEYS */;
 UNLOCK TABLES;
 
