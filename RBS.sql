@@ -162,9 +162,9 @@ DROP TABLE IF EXISTS `order`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order` (
-  `Order_id` int NOT NULL,
-  `Status` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `Order_time` datetime DEFAULT NULL,
+  `Order_id` int NOT NULL AUTO_INCREMENT,
+  `Status` varchar(10)  DEFAULT NULL,
+  `Order_time` datetime DEFAULT CURRENT_TIMESTAMP,
   `Wait_time` int NOT NULL,
   `C_Comment` varchar(99) DEFAULT NULL,
   `C_Rating` int DEFAULT NULL,
@@ -206,7 +206,8 @@ CREATE TABLE `order_food` (
   `Order_id` int NOT NULL,
   `Restaurant_id` int NOT NULL,
   `Food_id` int NOT NULL,
-  `Comment_time` datetime DEFAULT NULL,
+  `Food_num` int NOT NULL,
+  `Comment_time` datetime DEFAULT CURRENT_TIMESTAMP,
   `Rating` int DEFAULT NULL,
   `Comment` varchar(99) DEFAULT NULL,
   `Notes` varchar(99) DEFAULT NULL,
@@ -223,7 +224,7 @@ CREATE TABLE `order_food` (
 
 LOCK TABLES `order_food` WRITE;
 /*!40000 ALTER TABLE `order_food` DISABLE KEYS */;
-INSERT INTO `order_food` VALUES (1,1,1,'2023-05-08 17:21:15',1,'我覺得不行',NULL),(1,1,2,'2023-05-08 17:23:15',2,'普通','加滷蛋'),(2,3,1,'2023-05-06 17:21:15',4,'好吃',NULL),(2,3,2,'2023-05-06 17:23:15',5,'超好吃','加大');
+INSERT INTO `order_food` VALUES (1,1,1,2,'2023-05-08 17:21:15',1,'我覺得不行',NULL),(1,1,2,2,'2023-05-08 17:23:15',2,'普通','加滷蛋'),(2,3,1,2,'2023-05-06 17:21:15',4,'好吃',NULL),(2,3,2,2,'2023-05-06 17:23:15',5,'超好吃','加大');
 /*!40000 ALTER TABLE `order_food` ENABLE KEYS */;
 UNLOCK TABLES;
 
