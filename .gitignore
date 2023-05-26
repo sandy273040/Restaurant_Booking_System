@@ -160,3 +160,4 @@ cython_debug/
 #.idea/
 .vscode/launch.json
 Backend/config.py
+.DS_Store
