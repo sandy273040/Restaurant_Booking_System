@@ -1,2 +1,5 @@
 mysql-connector-python
 flask
+flask-restx
+flask-swagger-ui
+werkzeug
