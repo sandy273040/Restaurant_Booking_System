@@ -11,7 +11,7 @@ cnx = mysql.connector.connect(user= DATABASE_USERNAME, password= DATABASE_PASSWO
 cursor = cnx.cursor()
 
 # RA Read All restaurant accounts
-@app.route('/restaccount', methods=['GET'])
+#@app.route('/restaccount', methods=['GET'])
 def get_restaccounts():
     query = "SELECT * FROM restaurant"
     cursor.execute(query)
@@ -33,7 +33,7 @@ def get_restaccounts():
     return jsonify(accounts)
 
 # R Read restaccount 
-@app.route('/restaccount/<int:account_id>', methods=['GET'])
+#@app.route('/restaccount/<int:account_id>', methods=['GET'])
 def get_restaccount(account_id):
     query = "SELECT * FROM restaurant WHERE restaurant_id = %s"
     cursor.execute(query, (account_id,))
@@ -54,7 +54,7 @@ def get_restaccount(account_id):
         return jsonify({'error': 'Account not found'})
 
 # C create restaccount 
-@app.route('/restaccount', methods=['POST'])
+#@app.route('/restaccount', methods=['POST'])
 def create_restaccount():
     
     account = request.json['account']
@@ -70,7 +70,7 @@ def create_restaccount():
     return jsonify({'message': 'Account created'})
 
 # U update account
-@app.route('/restaccount/<int:account_id>', methods=['PATCH'])
+#@app.route('/restaccount/<int:account_id>', methods=['PATCH'])
 def update_restaccount(account_id):
     account = request.json['account']
     password = request.json['password']
@@ -88,7 +88,7 @@ def update_restaccount(account_id):
     return jsonify({'message': 'Account updated'})
 
 # D delete account (not allow)
-@app.route('/restaccount/<int:account_id>', methods=['DELETE'])
+#@app.route('/restaccount/<int:account_id>', methods=['DELETE'])
 def delete_restaccount(account_id):
     
     # query = "DELETE FROM restaurant WHERE id = %s"
@@ -100,7 +100,7 @@ def delete_restaccount(account_id):
 
 
 # RA Read All customer accounts
-@app.route('/custaccount', methods=['GET'])
+#@app.route('/custaccount', methods=['GET'])
 def get_custaccounts():
     query = "SELECT * FROM customer"
     cursor.execute(query)
@@ -120,7 +120,7 @@ def get_custaccounts():
     return jsonify(accounts)
 
 # R Read cust account 
-@app.route('/custaccount/<int:account_id>', methods=['GET'])
+#@app.route('/custaccount/<int:account_id>', methods=['GET'])
 def get_custaccount(account_id):
     query = "SELECT * FROM customer WHERE customer_id = %s"
     cursor.execute(query, (account_id,))
@@ -139,7 +139,7 @@ def get_custaccount(account_id):
         return jsonify({'error': 'Account not found'})
 
 # C create cust account 
-@app.route('/custaccount', methods=['POST'])
+#@app.route('/custaccount', methods=['POST'])
 def create_custaccount():
     
     account = request.json['account']
@@ -154,7 +154,7 @@ def create_custaccount():
     return jsonify({'message': 'Account created'})
 
 # U update cust account
-@app.route('/custaccount/<int:account_id>', methods=['PATCH'])
+#@app.route('/custaccount/<int:account_id>', methods=['PATCH'])
 def update_custaccount(account_id):
     account = request.json['account']
     name = request.json['name']
@@ -169,7 +169,7 @@ def update_custaccount(account_id):
     return jsonify({'message': 'Account updated'})
 
 # D delete account (not allow)
-@app.route('/custaccount/<int:account_id>', methods=['DELETE'])
+#@app.route('/custaccount/<int:account_id>', methods=['DELETE'])
 def delete_custaccount(account_id):
     
     # query = "DELETE FROM restaurant WHERE id = %s"

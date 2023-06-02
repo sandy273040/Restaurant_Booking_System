@@ -1,6 +1,7 @@
 import mysql.connector
 from flask import Flask, jsonify, request
 from group_model import *
+from AccountAPI import *
 from flask_restx import Api, Resource, fields
 from flask_swagger_ui import get_swaggerui_blueprint
 from werkzeug.utils import cached_property
@@ -64,6 +65,52 @@ class Member_delete(Resource):
 class Delete_group(Resource):
     def delete(self, group_id):#fills parameter using url
         return delete_group(group_id)
+
+
+## an's block 
+# RA Read All restaurant accounts
+# C create restaccount 
+@api.route('/restaccounts')
+class RestAccounts_RA_C(Resource):
+    def get(self,):
+        return get_restaccounts()
+    def post(self, ):
+        return create_restaccount()
+# R Read restaccount 
+# U update group name given group id and new name
+# D delete grouop member given customer_id
+@api.route('/restaccounts/<int:account_id>')
+class RestAccounts_R_U_D(Resource):
+    def get(self, account_id):
+        return get_restaccount(account_id)
+    def patch(self, account_id):
+        return update_restaccount(account_id)
+
+    def delete(self, account_id):
+        return delete_restaccount(account_id)
+
+
+# RA Read All customer accounts
+# C create cust account 
+@api.route('/custaccount')
+class RestAccounts_RA_C(Resource):
+    def get(self,):
+        return get_custaccounts()
+    def post(self, ):
+        return create_custaccount()
+# R Read restaccount 
+# U update group name given group id and new name
+# D delete grouop member given customer_id
+@api.route('/custaccount/<int:account_id>')
+class RestAccounts_R_U_D(Resource):
+    def get(self, account_id):
+        return get_custaccount(account_id)
+    def patch(self, account_id):
+        return update_custaccount(account_id)
+
+    def delete(self, account_id):
+        return delete_custaccount(account_id)
+
 
 
 if __name__ == '__main__':

@@ -1,5 +1,6 @@
 import mysql.connector
 from flask import Flask, jsonify, request
+from config import *
 
 app = Flask(__name__)
 
@@ -10,6 +11,7 @@ cnx = mysql.connector.connect(
   password="4pF6qdBHyyWHBH97",
   database="DBFP"
 )
+#cnx = mysql.connector.connect(user= DATABASE_USERNAME, password= DATABASE_PASSWORD, host= DATABASE_HOST, database= DATABASE_NAME)
 
 # create cursor
 cursor = cnx.cursor()
