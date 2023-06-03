@@ -11,7 +11,7 @@ cnx = mysql.connector.connect(user= DATABASE_USERNAME, password= DATABASE_PASSWO
 cursor = cnx.cursor()
 
 # RA Read All foodorders
-@app.route('/foodorders/<int:customer_id>', methods=['GET'])
+#@app.route('/foodorders/<int:customer_id>', methods=['GET'])
 def get_foodorders(customer_id):
     query = """SELECT `order`.`Order_id`, `customer`.`Customer_id`, `customer`.`Name` AS `Customer_Name`, `order`.`Status`, GROUP_CONCAT(CONCAT(`food`.`Name`, ' (', `order_food`.`Food_num`, ')') SEPARATOR ', ') AS `Food_Names`
     FROM `order`
@@ -37,7 +37,7 @@ def get_foodorders(customer_id):
     return jsonify(foodorders)
 
 # R Read foodorder
-@app.route('/foodorder/<int:order_id>', methods=['GET'])
+#@app.route('/foodorder/<int:order_id>', methods=['GET'])
 def get_foodorder(order_id):
     query = """SELECT `order`.`Order_id`, `customer`.`Customer_id`, `customer`.`Name` AS `Customer_Name`, `order`.`Status`, GROUP_CONCAT(CONCAT(`food`.`Name`, ' (', `order_food`.`Food_num`, ')') SEPARATOR ', ') AS `Food_Names`
     FROM `order`
@@ -62,7 +62,7 @@ def get_foodorder(order_id):
         return jsonify({'error': 'Foodorder not found'})
 
 # C create foodorder
-@app.route('/foodorder', methods=['POST'])
+#@app.route('/foodorder', methods=['POST'])
 def create_foodorder():
     customer_id = request.json['Customer_id']
     restaurant_id = request.json['Restaurant_id']
@@ -85,7 +85,7 @@ def create_foodorder():
     return jsonify({'message': 'order created'})
 
 # U update foodorder
-@app.route('/foodorder', methods=['PATCH'])
+#@app.route('/foodorder', methods=['PATCH'])
 def update_foodorderr():
     customer_id = request.json['Customer_id']
     order_id = request.json['Order_id']
@@ -109,7 +109,7 @@ def update_foodorderr():
 
 
 # D delete foodorder
-@app.route('/foodorder/<int:order_id>', methods=['DELETE'])
+#@app.route('/foodorder/<int:order_id>', methods=['DELETE'])
 def delete_foodorder(order_id):
   
     query = "DELETE FROM `order_food` WHERE `Order_id` = %s "

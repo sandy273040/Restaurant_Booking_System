@@ -1,6 +1,7 @@
 import mysql.connector
 from flask import Flask, jsonify, request
 from group_model import *
+from FoodorderAPI import *
 from flask_restx import Api, Resource, fields
 from flask_swagger_ui import get_swaggerui_blueprint
 from werkzeug.utils import cached_property
@@ -65,6 +66,32 @@ class Delete_group(Resource):
     def delete(self, group_id):#fills parameter using url
         return delete_group(group_id)
 
+## claire's block 
+# R Read foodorder
+# U update foodorder
+@api.route('/foodorder/<int:customer_id>')
+class Foodorders_R_U(Resource):
+    def get(self, customer_id):
+        return get_foodorder(customer_id)
+    def patch(self, customer_id):
+        return update_foodorderr(customer_id)
+
+# C create foodorder
+@api.route('/foodorder')
+class Foodorders_C(Resource):
+  
+    def post(self, ):
+        return create_foodorder()
+    
+# RA Read All foodorders
+# D delete foodorder
+@api.route('/foodorders/<int:customer_id>')
+class Foodorders_RA_C(Resource):
+    def get(self, customer_id):
+        return get_foodorders(customer_id)
+ 
+    def delete(self, customer_id):
+        return delete_foodorder(customer_id)
 
 if __name__ == '__main__':
     app.run(debug=True)
