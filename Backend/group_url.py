@@ -69,30 +69,31 @@ class Delete_group(Resource):
 
 ## claire's block 
 # R Read foodorder
-# U update foodorder
-@api.route('/foodorder/<int:customer_id>')
-class Foodorders_R_U(Resource):
-    def get(self, customer_id):
-        return get_foodorder(customer_id)
-    def patch(self, customer_id):
-        return update_foodorderr(customer_id)
+# D delete foodorder
+@api.route('/foodorder/<int:order_id>')
+class Foodorders_R_D(Resource):
+    def get(self, order_id):
+        return get_foodorder(order_id)
+    def delete(self, order_id):
+        return delete_foodorder(order_id)
+
 
 # C create foodorder
+# U update foodorder
 @api.route('/foodorder')
-class Foodorders_C(Resource):
+class Foodorders_C_U(Resource):
   
     def post(self, ):
         return create_foodorder()
-    
+    def patch(self, ):
+        return update_foodorder()
+
 # RA Read All foodorders
-# D delete foodorder
 @api.route('/foodorders/<int:customer_id>')
-class Foodorders_RA_C(Resource):
+class Foodorders_RA(Resource):
     def get(self, customer_id):
         return get_foodorders(customer_id)
  
-    def delete(self, customer_id):
-        return delete_foodorder(customer_id)
 
 ## an's block 
 # RA Read All restaurant accounts

@@ -86,7 +86,7 @@ def create_foodorder():
 
 # U update foodorder
 #@app.route('/foodorder', methods=['PATCH'])
-def update_foodorderr():
+def update_foodorder():
     customer_id = request.json['Customer_id']
     order_id = request.json['Order_id']
     status = request.json['status'] if 'status' in request.json and request.json['status'] else None
