@@ -2,6 +2,7 @@ import mysql.connector
 from flask import Flask, jsonify, request
 from group_model import *
 from AccountAPI import *
+from CommentAPI import *
 from flask_restx import Api, Resource, fields
 from flask_swagger_ui import get_swaggerui_blueprint
 from werkzeug.utils import cached_property
@@ -111,6 +112,57 @@ class RestAccounts_R_U_D(Resource):
     def delete(self, account_id):
         return delete_custaccount(account_id)
 
+# Comment Module
+### ORDER - Customer ###
+@api.route('/customer/orders/<int:order_id>/comments')
+class Cstomer_order_comment(Resource):
+    # Create and Update comment
+    def patch(self, order_id):
+        return update_customer_order_comment(order_id)
+    # Read Comment
+    def get(self, order_id):
+        return get_customer_order_comment(order_id)
+    # Delete Comment
+    def delete(self, order_id):
+        return delete_customer_order_comment(order_id)
+
+### ORDER - GROUP ###
+@api.route('/group/orders/<int:order_id>/comments')
+class Cstomer_order_comment(Resource):
+    # Create and Update comment
+    def patch(self, order_id):
+        return update_group_order_comment(order_id)
+    # Read Comment
+    def get(self, order_id):
+        return get_group_order_comment(order_id)
+    # Delete Comment
+    def delete(self, order_id):
+        return delete_group_order_comment(order_id)
+
+### ORDER FOOD ###
+@api.route('/orders/<int:order_id>/foods/<int:food_id>/comments')
+class Cstomer_order_comment(Resource):
+    # Create and Update comment
+    def post(self, order_id, food_id):
+        return add_order_food_comment(order_id,food_id)
+    # Read Comment
+    def get(self, order_id, food_id):
+        return get_order_food_comment(order_id,food_id)
+    # Delete Comment
+    def delete(self, order_id, food_id):
+        return delete_order_food_comment(order_id,food_id)
+
+### Search Comment ###
+# Restaurant 
+@api.route('/restaurants/<int:restaurant_id>')
+class Cstomer_order_comment(Resource):
+    def post(self, restaurant_id):
+        return get_restaurant_comment(restaurant_id)
+# Food
+@api.route('/food/<int:food_id>')
+class Cstomer_order_comment(Resource):
+    def post(self, food_id):
+        return get_food_comment(food_id)
 
 
 if __name__ == '__main__':
