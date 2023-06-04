@@ -2,15 +2,17 @@ import mysql.connector
 from flask import Flask, jsonify, request
 from group_model import *
 from AccountAPI import *
-from flask_restx import Api, Resource, fields
+from orderStatus_model import *
+from flask_restx import Api, Resource, reqparse
 from flask_swagger_ui import get_swaggerui_blueprint
 from werkzeug.utils import cached_property
 
 #   using "http://localhost:5000/api/docs/#/" to check whether Swagger works
 
 app = Flask(__name__)
-api = Api(app)
- 
+api = Api(app,title='餐廳管理資訊系統')
+
+
 SWAGGER_URL = '/api/docs'  # URL for exposing Swagger UI (without trailing '/')
 API_URL = 'http://localhost:5000/swagger.json'  # Our API url (can of course be a local resource)
 
@@ -107,11 +109,34 @@ class RestAccounts_R_U_D(Resource):
         return get_custaccount(account_id)
     def patch(self, account_id):
         return update_custaccount(account_id)
-
     def delete(self, account_id):
         return delete_custaccount(account_id)
 
 
+
+## ZiHong's block 
+# RA Read All restaurant accounts
+# 增加namespace
+add_ns = api.namespace("restaurants/order", description='訂單管理模組')
+
+@add_ns.route('/<int:restaurant_id>')
+class ShowAllOrders(Resource):
+    def get(self, restaurant_id):
+        return show_all_orders(restaurant_id)
+
+# 輸入的參數設定
+order_parser = reqparse.RequestParser()
+order_parser.add_argument('order_id', type=int, help='order 編號')
+order_parser.add_argument('status', type=str, help='更改狀態(finish,accepted,delete)')
+@add_ns.route('/orderUpdate')
+class UpdateOrder(Resource):
+    @api.doc(parser=order_parser)
+    def patch(self):
+        args = order_parser.parse_args()
+        order_id = args['order_id']
+        status = args['status']
+        return update_order(order_id,status)
+api.add_namespace(add_ns)
 
 if __name__ == '__main__':
     app.run(debug=True)
