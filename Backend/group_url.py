@@ -72,17 +72,26 @@ class Delete_group(Resource):
 ## an's block 
 # RA Read All restaurant accounts
 # C create restaccount 
-@api.route('/restaccounts')
+api_ns_rac = api.namespace("restaccounts", description='餐廳帳號管理模組')
+@api_ns_rac.route('/')
 class RestAccounts_RA_C(Resource):
+    # 輸入的參數設定
+    order_parser = reqparse.RequestParser()
+    order_parser.add_argument('', type=int, help='order 編號')
+    order_parser.add_argument('', type=str, help='更改狀態(finish,accepted,delete)')
     def get(self,):
         return get_restaccounts()
+    @api.doc(parser = order_parser )
     def post(self, ):
-        return create_restaccount()
+        return create_restaccount(parser)
 # R Read restaccount 
 # U update group name given group id and new name
 # D delete grouop member given customer_id
-@api.route('/restaccounts/<int:account_id>')
+@api_ns_rac.route('/<int:account_id>')
 class RestAccounts_R_U_D(Resource):
+    order_parser = reqparse.RequestParser()
+    order_parser.add_argument('order_id', type=int, help='order 編號')
+    order_parser.add_argument('status', type=str, help='更改狀態(finish,accepted,delete)')
     def get(self, account_id):
         return get_restaccount(account_id)
     def patch(self, account_id):
@@ -91,11 +100,14 @@ class RestAccounts_R_U_D(Resource):
     def delete(self, account_id):
         return delete_restaccount(account_id)
 
-
+api_ns_cac = api.namespace("custaccount", description='顧客帳號管理模組')
 # RA Read All customer accounts
 # C create cust account 
-@api.route('/custaccount')
+@api_ns_cac.route('/')
 class RestAccounts_RA_C(Resource):
+    # order_parser = reqparse.RequestParser()
+    # order_parser.add_argument('order_id', type=int, help='order 編號')
+    # order_parser.add_argument('status', type=str, help='更改狀態(finish,accepted,delete)')
     def get(self,):
         return get_custaccounts()
     def post(self, ):
@@ -103,7 +115,7 @@ class RestAccounts_RA_C(Resource):
 # R Read restaccount 
 # U update group name given group id and new name
 # D delete grouop member given customer_id
-@api.route('/custaccount/<int:account_id>')
+@api_ns_cac.route('/<int:account_id>')
 class RestAccounts_R_U_D(Resource):
     def get(self, account_id):
         return get_custaccount(account_id)

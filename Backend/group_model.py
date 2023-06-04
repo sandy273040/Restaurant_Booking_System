@@ -5,13 +5,13 @@ from config import *
 app = Flask(__name__)
 
 # Define MySQL connection information
-cnx = mysql.connector.connect(  
-  host="localhost",
-  user="debian-sys-maint",
-  password="4pF6qdBHyyWHBH97",
-  database="DBFP"
-)
-#cnx = mysql.connector.connect(user= DATABASE_USERNAME, password= DATABASE_PASSWORD, host= DATABASE_HOST, database= DATABASE_NAME)
+# cnx = mysql.connector.connect(  
+#   host="localhost",
+#   user="debian-sys-maint",
+#   password="4pF6qdBHyyWHBH97",
+#   database="DBFP"
+# )
+cnx = mysql.connector.connect(user= DATABASE_USERNAME, password= DATABASE_PASSWORD, host= DATABASE_HOST, database= DATABASE_NAME)
 
 # create cursor
 cursor = cnx.cursor()
