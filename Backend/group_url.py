@@ -70,16 +70,16 @@ class Delete_group(Resource):
         return delete_group(group_id)
 
 
-## an's block 
+## an's block
 # RA Read All restaurant accounts
-# C create restaccount 
+# C create restaccount
 @api.route('/restaccounts')
 class RestAccounts_RA_C(Resource):
     def get(self,):
         return get_restaccounts()
     def post(self, ):
         return create_restaccount()
-# R Read restaccount 
+# R Read restaccount
 # U update group name given group id and new name
 # D delete grouop member given customer_id
 @api.route('/restaccounts/<int:account_id>')
@@ -94,14 +94,14 @@ class RestAccounts_R_U_D(Resource):
 
 
 # RA Read All customer accounts
-# C create cust account 
+# C create cust account
 @api.route('/custaccount')
 class RestAccounts_RA_C(Resource):
     def get(self,):
         return get_custaccounts()
     def post(self, ):
         return create_custaccount()
-# R Read restaccount 
+# R Read restaccount
 # U update group name given group id and new name
 # D delete grouop member given customer_id
 @api.route('/custaccount/<int:account_id>')
@@ -236,7 +236,7 @@ class Cstomer_order_comment(Resource):
 
 api.add_namespace(comment_ns)
 
-## ZiHong's block 
+## ZiHong's block
 # RA Read All restaurant accounts
 # 增加namespace
 add_ns = api.namespace("restaurants/order", description='訂單管理模組')
@@ -259,6 +259,64 @@ class UpdateOrder(Resource):
         status = args['status']
         return update_order(order_id,status)
 api.add_namespace(add_ns)
+
+
+## 采宗
+api_ns_CFF = api.namespace("/customer_food_favorite", description='顧客喜愛食物清單')
+
+# RA Read All customer_food_favorite
+@api_ns_CFF.route('/')
+class customer_food_favorite_RA(Resource):
+    def get(self):
+        return get_customer_food_favorite()
+
+# R Read user
+@api_ns_CFF.route('/<int:Customer_id>/<int:Restaurant_id>/<int:Food_id>')
+class customer_food_favorite_R(Resource):
+    def get(self, Customer_id, Restaurant_id, Food_id):
+        return get_food(Customer_id, Restaurant_id, Food_id)
+
+# C create user
+@api_ns_CFF.route('/<int:Customer_id>/<int:Restaurant_id>/<int:Food_id>')
+class customer_food_favorite_C(Resource):
+    def post(self, Customer_id, Restaurant_id, Food_id)
+        return create_food(Customer_id, Restaurant_id, Food_id)
+
+# D delete user
+@api_ns_CFF.route('/<int:Customer_id>/<int:Restaurant_id>/<int:Food_id>')
+class customer_food_favorite_RA(Resource):
+    def delete(self, Customer_id, Restaurant_id, Food_id)
+        return delete_food(Customer_id, Restaurant_id, Food_id)
+
+
+api_ns_CRF = api.namespace("/customer_restaurant_favorite", description='顧客喜愛餐廳清單')
+
+# RA Read All customer_restaurant_favorite
+@api_ns_CRF.route('/')
+class customer_restaurant_favorite_RA(Resource):
+    def get(self):
+        return get_customer_restaurant_favorite()
+
+# R Read user
+@api_ns_CRF.route('/<int:Customer_id>/<int:Restaurant_id>')
+class customer_restaurant_favorite_RA(Resource):
+    def get(self, Customer_id, Restaurant_id):
+        return get_restaurant(Customer_id, Restaurant_id)
+
+# C create user
+@api_ns_CRF.route('/<int:Customer_id>/<int:Restaurant_id>')
+class customer_restaurant_favorite_RA(Resource):
+    def post(self, Customer_id, Restaurant_id)
+        return create_restaurant(Customer_id, Restaurant_id)
+
+# D delete user
+@api_ns_CRF.route('/<int:Customer_id>/<int:Restaurant_id>')
+class customer_restaurant_favorite_RA(Resource):
+    def delete(self, Customer_id, Restaurant_id)
+        return delete_restaurant(Customer_id, Restaurant_id)
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
