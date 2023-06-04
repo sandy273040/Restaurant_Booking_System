@@ -2,16 +2,18 @@ import mysql.connector
 from flask import Flask, jsonify, request
 from group_model import *
 from AccountAPI import *
+from orderStatus_model import *
 from CommentAPI import *
-from flask_restx import Api, Resource, fields
+from flask_restx import Api, Resource, reqparse
 from flask_swagger_ui import get_swaggerui_blueprint
 from werkzeug.utils import cached_property
 
 #   using "http://localhost:5000/api/docs/#/" to check whether Swagger works
 
 app = Flask(__name__)
-api = Api(app)
- 
+api = Api(app,title='餐廳管理資訊系統')
+
+
 SWAGGER_URL = '/api/docs'  # URL for exposing Swagger UI (without trailing '/')
 API_URL = 'http://localhost:5000/swagger.json'  # Our API url (can of course be a local resource)
 
@@ -108,62 +110,155 @@ class RestAccounts_R_U_D(Resource):
         return get_custaccount(account_id)
     def patch(self, account_id):
         return update_custaccount(account_id)
-
     def delete(self, account_id):
         return delete_custaccount(account_id)
 
 # Comment Module
+comment_ns = api.namespace("comments/", description='評論管理模組')
+
 ### ORDER - Customer ###
-@api.route('/customer/orders/<int:order_id>/comments')
+customer_order_comment_parser = reqparse.RequestParser()
+customer_order_comment_parser.add_argument('order_id', type=int, help='order 編號')
+customer_order_comment_parser.add_argument('comment', type=str, help='評論')
+customer_order_comment_parser.add_argument('rating', type=int, help='星等')
+customer_order_comment_read_delete_parser = reqparse.RequestParser()
+customer_order_comment_read_delete_parser.add_argument('order_id', type=int, help='order 編號')
+@comment_ns.route('/customer/orders')
 class Cstomer_order_comment(Resource):
     # Create and Update comment
-    def patch(self, order_id):
-        return update_customer_order_comment(order_id)
+    @api.doc(parser=customer_order_comment_parser)
+    def patch(self):
+        args = customer_order_comment_parser.parse_args()
+        order_id = args['order_id']
+        comment = args['comment']
+        rating = args['rating']
+        return update_customer_order_comment(order_id, comment, rating)
     # Read Comment
-    def get(self, order_id):
+    @api.doc(parser=customer_order_comment_read_delete_parser)
+    def get(self):
+        args = customer_order_comment_read_delete_parser.parse_args()
+        order_id = args['order_id']
         return get_customer_order_comment(order_id)
     # Delete Comment
-    def delete(self, order_id):
+    @api.doc(parser=customer_order_comment_read_delete_parser)
+    def delete(self):
+        args = customer_order_comment_read_delete_parser.parse_args()
+        order_id = args['order_id']
         return delete_customer_order_comment(order_id)
 
+
 ### ORDER - GROUP ###
-@api.route('/group/orders/<int:order_id>/comments')
+group_order_comment_parser = reqparse.RequestParser()
+group_order_comment_parser.add_argument('order_id', type=int, help='order 編號')
+group_order_comment_parser.add_argument('comment', type=str, help='評論')
+group_order_comment_parser.add_argument('rating', type=int, help='星等')
+group_order_comment_read_delete_parser = reqparse.RequestParser()
+group_order_comment_read_delete_parser.add_argument('order_id', type=int, help='order 編號')
+@comment_ns.route('/group/orders')
 class Cstomer_order_comment(Resource):
     # Create and Update comment
-    def patch(self, order_id):
-        return update_group_order_comment(order_id)
+    @api.doc(parser=group_order_comment_parser)
+    def patch(self):
+        args = group_order_comment_parser.parse_args()
+        order_id = args['order_id']
+        comment = args['comment']
+        rating = args['rating']
+        return update_group_order_comment(order_id, comment, rating)
     # Read Comment
-    def get(self, order_id):
+    @api.doc(parser=group_order_comment_read_delete_parser)
+    def get(self):
+        args = group_order_comment_read_delete_parser.parse_args()
+        order_id = args['order_id']
         return get_group_order_comment(order_id)
     # Delete Comment
-    def delete(self, order_id):
+    @api.doc(parser=group_order_comment_read_delete_parser)
+    def delete(self):
+        args = group_order_comment_read_delete_parser.parse_args()
+        order_id = args['order_id']
         return delete_group_order_comment(order_id)
 
 ### ORDER FOOD ###
-@api.route('/orders/<int:order_id>/foods/<int:food_id>/comments')
+order_food_comment_parser = reqparse.RequestParser()
+order_food_comment_parser.add_argument('order_id', type=int, help='order 編號')
+order_food_comment_parser.add_argument('food_id', type=int, help='food 編號')
+order_food_comment_parser.add_argument('comment', type=str, help='評論')
+order_food_comment_parser.add_argument('rating', type=int, help='星等')
+order_food_comment_read_delete_parser = reqparse.RequestParser()
+order_food_comment_read_delete_parser.add_argument('order_id', type=int, help='order 編號')
+order_food_comment_read_delete_parser.add_argument('food_id', type=int, help='food 編號')
+@comment_ns.route('/orders/foods/')
 class Cstomer_order_comment(Resource):
     # Create and Update comment
-    def post(self, order_id, food_id):
-        return add_order_food_comment(order_id,food_id)
+    @api.doc(parser=order_food_comment_parser)
+    def post(self):
+        args = order_food_comment_parser.parse_args()
+        order_id = args['order_id']
+        food_id = args['food_id']
+        comment = args['comment']
+        rating = args['rating']
+        return add_order_food_comment(order_id,food_id, comment, rating)
     # Read Comment
-    def get(self, order_id, food_id):
+    @api.doc(parser=order_food_comment_read_delete_parser)
+    def get(self):
+        args = order_food_comment_read_delete_parser.parse_args()
+        order_id = args['order_id']
+        food_id = args['food_id']
         return get_order_food_comment(order_id,food_id)
     # Delete Comment
-    def delete(self, order_id, food_id):
+    @api.doc(parser=order_food_comment_read_delete_parser)
+    def delete(self):
+        args = order_food_comment_read_delete_parser.parse_args()
+        order_id = args['order_id']
+        food_id = args['food_id']
         return delete_order_food_comment(order_id,food_id)
 
 ### Search Comment ###
 # Restaurant 
-@api.route('/restaurants/<int:restaurant_id>')
+restaurant_comment_parser = reqparse.RequestParser()
+restaurant_comment_parser.add_argument('restaurant_id', type=int, help='restaurant 編號')
+@comment_ns.route('/restaurants')
 class Cstomer_order_comment(Resource):
-    def post(self, restaurant_id):
+    @api.doc(parser=restaurant_comment_parser)
+    def post(self):
+        args = restaurant_comment_parser.parse_args()
+        restaurant_id = args['restaurant_id']
         return get_restaurant_comment(restaurant_id)
 # Food
-@api.route('/food/<int:food_id>')
+food_comment_parser = reqparse.RequestParser()
+food_comment_parser.add_argument('food_id', type=int, help='food 編號')
+@comment_ns.route('/food')
 class Cstomer_order_comment(Resource):
-    def post(self, food_id):
+    @api.doc(parser=food_comment_parser)
+    def post(self):
+        args = food_comment_parser.parse_args()
+        food_id = args['food_id']
         return get_food_comment(food_id)
 
+api.add_namespace(comment_ns)
+
+## ZiHong's block 
+# RA Read All restaurant accounts
+# 增加namespace
+add_ns = api.namespace("restaurants/order", description='訂單管理模組')
+
+@add_ns.route('/<int:restaurant_id>')
+class ShowAllOrders(Resource):
+    def get(self, restaurant_id):
+        return show_all_orders(restaurant_id)
+
+# 輸入的參數設定
+order_parser = reqparse.RequestParser()
+order_parser.add_argument('order_id', type=int, help='order 編號')
+order_parser.add_argument('status', type=str, help='更改狀態(finish,accepted,delete)')
+@add_ns.route('/orderUpdate')
+class UpdateOrder(Resource):
+    @api.doc(parser=order_parser)
+    def patch(self):
+        args = order_parser.parse_args()
+        order_id = args['order_id']
+        status = args['status']
+        return update_order(order_id,status)
+api.add_namespace(add_ns)
 
 if __name__ == '__main__':
     app.run(debug=True)
