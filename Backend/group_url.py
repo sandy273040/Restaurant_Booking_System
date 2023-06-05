@@ -28,55 +28,84 @@ swaggerui_blueprint = get_swaggerui_blueprint(
 
 app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 
+#Chu Yun's block
+group_ns = api.namespace("groups/", description="群組管理模組")
+group_id_read = reqparse.RequestParser()
+group_id_read.add_argument("group_id", type=int, help="群組代號")
 
-@api.route("/group_members")
+@group_ns.route("/group_members")
 class GroupMembers(Resource):
     def get(self):
         return get_group_members()
 
-
 # R Read group - show group data given group_id
-@api.route("/groups/<int:group_id>")
+@group_ns.route("/specific_group")
 class Groups(Resource):
-    def get(self, group_id):
+    @api.doc(parser=group_id_read)
+    def get(self):
+        args = group_id_read.parse_args()   
+        group_id = args['group_id']
         return get_groups(group_id)
+    @api.doc(parser=group_id_read)
+    def delete(self):  # fills parameter using url
+        args = group_id_read.parse_args()
+        group_id = args['group_id']
+        return delete_group(group_id)
 
+
+gp_name_args = reqparse.RequestParser()
+gp_name_args.add_argument("group_name", type=str, help='群組名稱')
 
 # C create a new group given a group name
-@api.route("/create_group/<string:group_name>")
+@group_ns.route("/create_group")
 class Group_create(Resource):
-    def post(self, group_name):
+    @api.doc(parser=gp_name_args)
+    def post(self):
+        args = gp_name_args.parse_args()
+        group_name = args['group_name']
         return create_group(group_name)
 
+register_args = reqparse.RequestParser()
+register_args.add_argument("customer_name", type=str, help="顧客名稱")
+register_args.add_argument("group_id", type=int, help="群組代號")
+register_args.add_argument("account", type=str, help="帳戶名稱")
 
 # create a registration
-@api.route(
-    "/register_group/group/<int:group_id>/customer/<string:customer_name>/account/<string:account>"
-)
+@group_ns.route("/register_group")
 class User_add(Resource):
-    def post(self, group_id, customer_name, account):
+    @api.doc(parser=register_args)
+    def post(self):
+        args = register_args.parse_args()
+        customer_name = args['customer_name']
+        group_id = args['group_id']
+        account = args['account']
         return add_user(group_id, customer_name, account)
 
+gp_name_args.add_argument("group_id", type=int, help="群組代號")
 
 # U update group name given group id and new name
-@api.route("/update_users/group_name/<string:group_name>/group_id/<int:group_id>")
+@group_ns.route("/update_group_name")
 class User_update(Resource):
-    def patch(self, group_name, group_id):
+    @api.doc(parser=gp_name_args)
+    def patch(self):
+        args = gp_name_args.parse_args()
+        group_name = args['group_name']
+        group_id = args['group_id']
         return update_user(group_name, group_id)
 
+member_gp_args = reqparse.RequestParser()
+member_gp_args.add_argument("group_id", type=int, help="群組代號")
+member_gp_args.add_argument("customer_id", type=int, help="顧客代號")
 
 # D delete grouop member given customer_id
-@api.route("/group/<int:group_id>/member/<int:customer_id>")
+@group_ns.route("/group_member")
 class Member_delete(Resource):
-    def delete(self, customer_id, group_id):
+    @api.doc(parser=member_gp_args)
+    def delete(self):
+        args = member_gp_args.parse_args()
+        group_id = args['group_id']
+        customer_id = args['customer_id']
         return delete_group_member(customer_id, group_id)
-
-
-# D delete the whole grouop given group_id
-@api.route("/delete_group/<int:group_id>")  # shoudn't be only 'DELETE', O.W. 405
-class Delete_group(Resource):
-    def delete(self, group_id):  # fills parameter using url
-        return delete_group(group_id)
 
 
 ## an's block

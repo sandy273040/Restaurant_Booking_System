@@ -27,7 +27,7 @@ def get_group_members():
     query = "SELECT g.Group_id, g.name AS Group_name, GROUP_CONCAT(c.name) AS Group_members FROM `group` AS g LEFT JOIN registration AS r on g.Group_id=r.Group_id LEFT JOIN customer AS c on r.Customer_id=c.Customer_id Group by g.Group_id, g.name"  # r.Customer_id=c.Customer_id
     cursor.execute(query)
     result = cursor.fetchall()
-    print(result)
+    # print(result)
 
     groups = []
     for group in result:
@@ -58,8 +58,12 @@ def create_group(name):
     query = "INSERT INTO `group` (name) VALUES (%s)"
     cursor.execute(query, (name,))
     cnx.commit()
+    
+    query = "SELECT `Group_id` FROM `group` WHERE Name=(%s)"
+    cursor.execute(query, (name,))
+    group_num = cursor.fetchone()[0]
 
-    return jsonify({"message": f"Group {name} created"})
+    return jsonify({"message": f"Group {name} created. Your group number is {group_num}"})
 
 
 # create a registration

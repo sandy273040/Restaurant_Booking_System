@@ -8,10 +8,17 @@ from logging import FileHandler,WARNING
 import mysql.connector as s2
 
 from flask import Blueprint
+from config import *
 
 
 
-db = s2.connect(host='localhost',user='root',password='22826220',database='RES')
+# db = s2.connect(host='localhost',user='root',password='22826220',database='RES')
+DB = s2.connect(
+    user=DATABASE_USERNAME,
+    password=DATABASE_PASSWORD,
+    host=DATABASE_HOST,
+    database=DATABASE_NAME,
+)
 
 app = Flask(__name__)
 
