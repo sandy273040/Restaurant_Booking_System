@@ -9,7 +9,7 @@ from cutomer_food_favorite import *
 from flask_restx import Api, Resource, reqparse
 from flask_swagger_ui import get_swaggerui_blueprint
 from werkzeug.utils import cached_property
-
+from food_model import *
 #   using "http://localhost:5000/api/docs/#/" to check whether Swagger works
 
 app = Flask(__name__)
@@ -382,6 +382,58 @@ class customer_restaurant_favorite_RA(Resource):
 class customer_restaurant_favorite_RA(Resource):
     def delete(self, Customer_id, Restaurant_id):
         return delete_restaurant(Customer_id, Restaurant_id)
+
+# IKai
+api_add_ns = api.namespace("food", description='訂單管理模組')
+food_parser_add = reqparse.RequestParser()
+food_parser_add.add_argument('food_id',required=True ,type=int, help='food 編號')
+food_parser_add.add_argument('restaurant_id', required=True,type=int, help='restaurant id')
+food_parser_add.add_argument('name', type=str, help='food name')
+food_parser_add.add_argument('price', type=int, help='food price')
+food_parser_add.add_argument('available', type=int, help='food available')
+food_parser_add.add_argument('url', type=str, help='restaurant url')
+food_parser_add.add_argument('style', type=str, help='restaurant style')
+food_parser_add.add_argument('note', type=str, help='food note ')
+food_parser_delete = reqparse.RequestParser()
+food_parser_delete.add_argument('food_id',required=True ,type=int, help='food 編號')
+food_parser_delete.add_argument('restaurant_id', required=True,type=int, help='restaurant id')
+food_parser_delete.add_argument('name', type=str, help='food name')
+# print(food_parser.parse_args())
+
+@api_add_ns.route('/search_food/<string:food_name>')
+class Search_Food(Resource):
+    def get(self, food_name):
+        return search_food(food_name)
+
+@api_add_ns.route('/add_food')
+class Add_Food(Resource):
+    @api.doc(parser=food_parser_add)
+    def post(self):
+        info = food_parser_add.parse_args()
+        return add_food(info)
+
+@api_add_ns.route('/check/')
+class Check(Resource):
+    def get(self, ):
+        return check()
+
+# U update group name given group id and new name
+@api_add_ns.route('/update_food/')
+class User_update(Resource):
+    @api.doc(parser=food_parser_add)
+    def patch(self):
+        info = food_parser_add.parse_args()
+        # info=request.form.to_dict()
+        return update_food(info)
+
+# D delete the whole grouop given group_id
+@api_add_ns.route('/delete_food')
+class Delete_Food(Resource):
+    @api.doc(parser=food_parser_delete)
+    def delete(self):#fills parameter using url
+        info = food_parser_delete.parse_args()
+        return delete_food(info)
+
 
 
 if __name__ == "__main__":
