@@ -111,59 +111,93 @@ class Member_delete(Resource):
 ## an's block
 # RA Read All restaurant accounts
 # C create restaccount
-@api.route("/restaccounts")
+api_ns_rac = api.namespace("restaccounts", description='餐廳帳號管理模組')
+parser_restaccount = reqparse.RequestParser()
+parser_restaccount.add_argument('account', type=str, default='jakianyoky', help='帳號ID' )
+parser_restaccount.add_argument('password', type=str, default='F41635',  help='密碼')
+parser_restaccount.add_argument('name', type=str, default='亨食天堂-自九分店', help='店名')
+parser_restaccount.add_argument('address', type=str, default='臺北市文山區環山一道', help='地址')
+parser_restaccount.add_argument('hours', type=str, default='00-00', help='營業時間')
+parser_restaccount.add_argument('style', type=str, default='台式', help='風格')
+@api_ns_rac.route('/')
 class RestAccounts_RA_C(Resource):
-    def get(
-        self,
-    ):
+    # 輸入的參數設定
+
+    def get(self,):
         return get_restaccounts()
-
-    def post(
-        self,
-    ):
-        return create_restaccount()
-
-
+    @api.doc(parser = parser_restaccount )
+    def post(self, ):
+        args = parser.parse_args()
+        account    = args['account']
+        password   = args['password']
+        name       = args['name']
+        address    = args['address']
+        hours      = args['hours']
+        style      = args['style']
+        return create_restaccount(account,password,name,address,hours,style)
 # R Read restaccount
 # U update group name given group id and new name
 # D delete grouop member given customer_id
-@api.route("/restaccounts/<int:account_id>")
+@api_ns_rac.route('/<int:account_id>')
 class RestAccounts_R_U_D(Resource):
     def get(self, account_id):
         return get_restaccount(account_id)
-
+    parser_restaccount.add_argument('style', type=str, default='自助式', help='風格')
+    @api.doc(parser = parser_restaccount )
     def patch(self, account_id):
-        return update_restaccount(account_id)
+        args = parser_restaccount.parse_args()
+        account    = args['account']
+        password   = args['password']
+        name       = args['name']
+        address    = args['address']
+        hours      = args['hours']
+        style      = args['style']
+        return update_restaccount(account_id,account,password,name,address,hours,style)
 
     def delete(self, account_id):
         return delete_restaccount(account_id)
 
+api_ns_cac = api.namespace("custaccount", description='顧客帳號管理模組')
 
+parser_custaccount = reqparse.RequestParser()
+parser_custaccount.add_argument('account', type=str, default='jakianyoky', help='帳號ID' )
+parser_custaccount.add_argument('name', type=str, default='李峻安', help='名字')
+parser_custaccount.add_argument('password', type=str, default='F41635',  help='密碼')
+parser_custaccount.add_argument('phone', type=str, default='0928463200', help='號碼')
 # RA Read All customer accounts
 # C create cust account
-@api.route("/custaccount")
+@api_ns_cac.route('/')
 class RestAccounts_RA_C(Resource):
     def get(
         self,
     ):
         return get_custaccounts()
+    @api.doc(parser = parser_custaccount )
+    def post(self, ):
 
-    def post(
-        self,
-    ):
-        return create_custaccount()
-
-
+        args = parser_custaccount.parse_args()
+        account    = args['account']
+        name       = args['name']
+        password   = args['password']
+        phone      = args['phone']
+  
+        return create_custaccount(account,name,password,phone)
 # R Read restaccount
 # U update group name given group id and new name
 # D delete grouop member given customer_id
-@api.route("/custaccount/<int:account_id>")
+@api_ns_cac.route('/<int:account_id>')
 class RestAccounts_R_U_D(Resource):
+
     def get(self, account_id):
         return get_custaccount(account_id)
-
+    @api.doc(parser = parser_custaccount )
     def patch(self, account_id):
-        return update_custaccount(account_id)
+        args = parser_custaccount.parse_args()
+        account    = args['account']
+        name       = args['name']
+        password   = args['password']
+        phone      = args['phone']
+        return update_custaccount(account_id,account,name,password,phone)
 
     def delete(self, account_id):
         return delete_custaccount(account_id)
