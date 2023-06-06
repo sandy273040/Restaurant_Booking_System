@@ -1,6 +1,7 @@
 import mysql.connector
 from flask import Flask, jsonify, request
 from group_model import *
+from FoodorderAPI import *
 from AccountAPI import *
 from orderStatus_model import *
 from CommentAPI import *
@@ -51,8 +52,7 @@ class Groups(Resource):
         args = group_id_read.parse_args()
         group_id = args['group_id']
         return delete_group(group_id)
-
-
+ 
 gp_name_args = reqparse.RequestParser()
 gp_name_args.add_argument("group_name", type=str, help='群組名稱')
 
@@ -108,6 +108,35 @@ class Member_delete(Resource):
         return delete_group_member(customer_id, group_id)
 
 
+## claire's block 
+# R Read foodorder
+# D delete foodorder
+api_ns_fdo = api.namespace("foodorders", description='食物訂單模組')
+@api_ns_fdo.route('/<int:order_id>')
+class Foodorders_R_D(Resource):
+    def get(self, order_id):
+        return get_foodorder(order_id)
+    def delete(self, order_id):
+        return delete_foodorder(order_id)
+
+
+# C create foodorder
+# U update foodorder
+@api_ns_fdo.route('/')
+class Foodorders_C_U(Resource):
+  
+    def post(self, ):
+        return create_foodorder()
+    def patch(self, ):
+        return update_foodorder()
+
+# RA Read All foodorders
+@api_ns_fdo.route('/<int:customer_id>')
+class Foodorders_RA(Resource):
+    def get(self, customer_id):
+        return get_foodorders(customer_id)
+
+
 ## an's block
 # RA Read All restaurant accounts
 # C create restaccount
@@ -127,7 +156,7 @@ class RestAccounts_RA_C(Resource):
         return get_restaccounts()
     @api.doc(parser = parser_restaccount )
     def post(self, ):
-        args = parser.parse_args()
+        args = parser_restaccount.parse_args()
         account    = args['account']
         password   = args['password']
         name       = args['name']

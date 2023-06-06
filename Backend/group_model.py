@@ -1,7 +1,6 @@
 import mysql.connector
 from flask import Flask, jsonify, request
 from config import *
-
 app = Flask(__name__)
 
 # Define MySQL connection information

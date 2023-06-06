@@ -17,7 +17,7 @@ cursor = cnx.cursor()
 
 
 # RA Read All foodorders
-@app.route("/foodorders/<int:customer_id>", methods=["GET"])
+#@app.route('/foodorders/<int:customer_id>', methods=['GET'])
 def get_foodorders(customer_id):
     query = """SELECT `order`.`Order_id`, `customer`.`Customer_id`, `customer`.`Name` AS `Customer_Name`, `order`.`Status`, GROUP_CONCAT(CONCAT(`food`.`Name`, ' (', `order_food`.`Food_num`, ')') SEPARATOR ', ') AS `Food_Names`
     FROM `order`
@@ -44,7 +44,7 @@ def get_foodorders(customer_id):
 
 
 # R Read foodorder
-@app.route("/foodorder/<int:order_id>", methods=["GET"])
+#@app.route('/foodorder/<int:order_id>', methods=['GET'])
 def get_foodorder(order_id):
     query = """SELECT `order`.`Order_id`, `customer`.`Customer_id`, `customer`.`Name` AS `Customer_Name`, `order`.`Status`, GROUP_CONCAT(CONCAT(`food`.`Name`, ' (', `order_food`.`Food_num`, ')') SEPARATOR ', ') AS `Food_Names`
     FROM `order`
@@ -70,7 +70,7 @@ def get_foodorder(order_id):
 
 
 # C create foodorder
-@app.route("/foodorder", methods=["POST"])
+#@app.route("/foodorder", methods=["POST"])
 def create_foodorder():
     customer_id = request.json["Customer_id"]
     restaurant_id = request.json["Restaurant_id"]
@@ -93,8 +93,8 @@ def create_foodorder():
 
 
 # U update foodorder
-@app.route("/foodorder", methods=["PATCH"])
-def update_foodorderr():
+#@app.route("/foodorder", methods=["PATCH"])
+def update_foodorder():
     customer_id = request.json["Customer_id"]
     order_id = request.json["Order_id"]
     status = (
@@ -125,7 +125,7 @@ def update_foodorderr():
 
 
 # D delete foodorder
-@app.route("/foodorder/<int:order_id>", methods=["DELETE"])
+#@app.route('/foodorder/<int:order_id>', methods=['DELETE'])
 def delete_foodorder(order_id):
     query = "DELETE FROM `order_food` WHERE `Order_id` = %s "
     cursor.execute(query, (order_id,))
