@@ -55,14 +55,14 @@ def get_restaccount(account_id):
 
 # C create restaccount 
 #@app.route('/restaccount', methods=['POST'])
-def create_restaccount():
+def create_restaccount(account,password,name,address,hours,style):
     
-    account = request.json['account']
-    password = request.json['password']
-    name = request.json['name']
-    address = request.json['address']
-    hours = request.json['hours']
-    style = request.json['style']
+    # account = request.json['account']
+    # password = request.json['password']
+    # name = request.json['name']
+    # address = request.json['address']
+    # hours = request.json['hours']
+    # style = request.json['style']
     query = "INSERT INTO restaurant (account, password, name, address, hours, style) VALUES (%s, %s, %s, %s, %s, %s)"
     cursor.execute(query, (account, password, name, address, hours, style))
     cnx.commit()
@@ -71,13 +71,13 @@ def create_restaccount():
 
 # U update account
 #@app.route('/restaccount/<int:account_id>', methods=['PATCH'])
-def update_restaccount(account_id):
-    account = request.json['account']
-    password = request.json['password']
-    name = request.json['name']
-    address = request.json['address']
-    hours = request.json['hours']
-    style = request.json['style']
+def update_restaccount(account_id ,account ,password ,name ,address ,hours ,style):
+    # account = request.json['account']
+    # password = request.json['password']
+    # name = request.json['name']
+    # address = request.json['address']
+    # hours = request.json['hours']
+    # style = request.json['style']
 
 
     query = "UPDATE restaurant SET account = %s, password = %s, name = %s, address = %s, hours = %s, style = %s WHERE Restaurant_id = %s"
@@ -140,12 +140,12 @@ def get_custaccount(account_id):
 
 # C create cust account 
 #@app.route('/custaccount', methods=['POST'])
-def create_custaccount():
+def create_custaccount(account,name,password,phone):
     
-    account = request.json['account']
-    password = request.json['password']
-    phone = request.json['phone']
-    name = request.json['name']
+    # account = request.json['account']
+    # password = request.json['password']
+    # phone = request.json['phone']
+    # name = request.json['name']
 
     query = "INSERT INTO customer (account, password, phone, name) VALUES (%s, %s, %s, %s)"
     cursor.execute(query, (account, password, phone, name))
@@ -155,11 +155,11 @@ def create_custaccount():
 
 # U update cust account
 #@app.route('/custaccount/<int:account_id>', methods=['PATCH'])
-def update_custaccount(account_id):
-    account = request.json['account']
-    name = request.json['name']
-    password = request.json['password']
-    phone = request.json['phone']
+def update_custaccount(account_id,account,name,password,phone):
+    # account = request.json['account']
+    # name = request.json['name']
+    # password = request.json['password']
+    # phone = request.json['phone']
 
     query = "UPDATE customer SET account = %s, password = %s, phone = %s, name = %s WHERE customer_id = %s"
     cursor.execute(query, (account, password, phone, name, account_id))
