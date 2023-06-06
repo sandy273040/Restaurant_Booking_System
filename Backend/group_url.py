@@ -384,7 +384,7 @@ class customer_restaurant_favorite_RA(Resource):
         return delete_restaurant(Customer_id, Restaurant_id)
 
 # IKai
-api_add_ns = api.namespace("food", description='訂單管理模組')
+api_add_ns = api.namespace("food", description='食物管理')
 food_parser_add = reqparse.RequestParser()
 food_parser_add.add_argument('food_id',required=True ,type=int, help='food 編號')
 food_parser_add.add_argument('restaurant_id', required=True,type=int, help='restaurant id')
