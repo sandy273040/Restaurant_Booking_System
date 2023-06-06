@@ -112,7 +112,8 @@ class Member_delete(Resource):
 # R Read foodorder
 # D delete foodorder
 api_ns_fdo = api.namespace("foodorders", description='食物訂單模組')
-@api_ns_fdo.route('/<int:order_id>')
+
+@api_ns_fdo.route('/order=<int:order_id>')
 class Foodorders_R_D(Resource):
     def get(self, order_id):
         return get_foodorder(order_id)
@@ -120,15 +121,45 @@ class Foodorders_R_D(Resource):
         return delete_foodorder(order_id)
 
 
+parser_foodorder_create = reqparse.RequestParser()
+parser_foodorder_create.add_argument('customer_id', type=str, default='2', help='顧客ID' )
+parser_foodorder_create.add_argument('food_id_num', type=str, default='1 (2), 3 (7)',  help='食物清單(用代號)')
+parser_foodorder_create.add_argument('status', type=str, default='accepted', help='訂單狀態(finish,accepted,delete)')
+parser_foodorder_create.add_argument('restaurant_id', type=str, default='1', help='餐廳ID')
+
+parser_foodorder_update = reqparse.RequestParser()
+parser_foodorder_update.add_argument('order_id', type=str, default='4', help='訂單編號')
+parser_foodorder_update.add_argument('customer_id', type=str, default='2', help='顧客ID' )
+parser_foodorder_update.add_argument('food_id_num', type=str, default='1 (7), 3 (8)',  help='食物清單(用代號)')
+parser_foodorder_update.add_argument('status', type=str, default='accepted', help='訂單狀態(finish,accepted,delete)')
+
+
+
 # C create foodorder
 # U update foodorder
 @api_ns_fdo.route('/')
 class Foodorders_C_U(Resource):
-  
+    @api.doc(parser=parser_foodorder_create)
     def post(self, ):
-        return create_foodorder()
+        args = parser_foodorder_create.parse_args()
+
+        customer_id = args["customer_id"]
+        food_id_num = args["food_id_num"]
+        restaurant_id = args["restaurant_id"]
+        return create_foodorder(customer_id,restaurant_id,food_id_num)
+    
+
+    @api.doc(parser=parser_foodorder_update)
     def patch(self, ):
-        return update_foodorder()
+        
+        args = parser_foodorder_update.parse_args()
+
+        customer_id = args["customer_id"]
+        order_id = args["order_id"]
+        status = args["status"]
+        food_id_num = args["food_id_num"]
+        
+        return update_foodorder(customer_id,order_id,status ,food_id_num)
 
 # RA Read All foodorders
 @api_ns_fdo.route('/<int:customer_id>')
@@ -141,22 +172,30 @@ class Foodorders_RA(Resource):
 # RA Read All restaurant accounts
 # C create restaccount
 api_ns_rac = api.namespace("restaccounts", description='餐廳帳號管理模組')
-parser_restaccount = reqparse.RequestParser()
-parser_restaccount.add_argument('account', type=str, default='jakianyoky', help='帳號ID' )
-parser_restaccount.add_argument('password', type=str, default='F41635',  help='密碼')
-parser_restaccount.add_argument('name', type=str, default='亨食天堂-自九分店', help='店名')
-parser_restaccount.add_argument('address', type=str, default='臺北市文山區環山一道', help='地址')
-parser_restaccount.add_argument('hours', type=str, default='00-00', help='營業時間')
-parser_restaccount.add_argument('style', type=str, default='台式', help='風格')
+parser_restaccount_create = reqparse.RequestParser()
+parser_restaccount_create.add_argument('account', type=str, default='jakianyoky', help='帳號ID' )
+parser_restaccount_create.add_argument('password', type=str, default='F41635',  help='密碼')
+parser_restaccount_create.add_argument('name', type=str, default='亨食天堂-自九分店', help='店名')
+parser_restaccount_create.add_argument('address', type=str, default='臺北市文山區環山一道', help='地址')
+parser_restaccount_create.add_argument('hours', type=str, default='00-00', help='營業時間')
+parser_restaccount_create.add_argument('style', type=str, default='台式', help='風格')
+
+parser_restaccount_update = reqparse.RequestParser()
+parser_restaccount_update.add_argument('account', type=str, default='jakianyoky', help='帳號ID' )
+parser_restaccount_update.add_argument('password', type=str, default='F41635',  help='密碼')
+parser_restaccount_update.add_argument('name', type=str, default='亨食天堂-自九分店', help='店名')
+parser_restaccount_update.add_argument('address', type=str, default='臺北市文山區環山一道', help='地址')
+parser_restaccount_update.add_argument('hours', type=str, default='00-00', help='營業時間')
+parser_restaccount_update.add_argument('style', type=str, default='自助式', help='風格')
 @api_ns_rac.route('/')
 class RestAccounts_RA_C(Resource):
     # 輸入的參數設定
 
     def get(self,):
         return get_restaccounts()
-    @api.doc(parser = parser_restaccount )
+    @api.doc(parser = parser_restaccount_create )
     def post(self, ):
-        args = parser_restaccount.parse_args()
+        args = parser_restaccount_create.parse_args()
         account    = args['account']
         password   = args['password']
         name       = args['name']
@@ -171,10 +210,10 @@ class RestAccounts_RA_C(Resource):
 class RestAccounts_R_U_D(Resource):
     def get(self, account_id):
         return get_restaccount(account_id)
-    parser_restaccount.add_argument('style', type=str, default='自助式', help='風格')
-    @api.doc(parser = parser_restaccount )
+
+    @api.doc(parser = parser_restaccount_update )
     def patch(self, account_id):
-        args = parser_restaccount.parse_args()
+        args = parser_restaccount_update.parse_args()
         account    = args['account']
         password   = args['password']
         name       = args['name']

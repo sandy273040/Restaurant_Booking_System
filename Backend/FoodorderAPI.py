@@ -71,12 +71,12 @@ def get_foodorder(order_id):
 
 # C create foodorder
 #@app.route("/foodorder", methods=["POST"])
-def create_foodorder():
-    customer_id = request.json["Customer_id"]
-    restaurant_id = request.json["Restaurant_id"]
-    status = "order"
+def create_foodorder(customer_id, restaurant_id,food_id_num):
+    # customer_id = request.json["Customer_id"]
+    # restaurant_id = request.json["Restaurant_id"]
+    status = "accepted"
     wait_time = "10"
-    food_list = request.json["Food_id-num"].split(", ")
+    food_list = food_id_num.split(", ")
 
     query = "INSERT INTO dbfp.order (Status, Customer_id,Restaurant_id, Wait_time) VALUES (%s, %s, %s ,%s)"
     cursor.execute(query, (status, customer_id, restaurant_id, wait_time))
@@ -94,19 +94,21 @@ def create_foodorder():
 
 # U update foodorder
 #@app.route("/foodorder", methods=["PATCH"])
-def update_foodorder():
-    customer_id = request.json["Customer_id"]
-    order_id = request.json["Order_id"]
-    status = (
-        request.json["status"]
-        if "status" in request.json and request.json["status"]
-        else None
-    )
-    food_list = (
-        request.json["Food_id-num"].split(", ")
-        if "Food_id-num" in request.json and request.json["Food_id-num"].split(", ")
-        else None
-    )
+def update_foodorder(customer_id,order_id,status = None ,food_id_num = None):
+    # customer_id = request.json["Customer_id"]
+    # order_id = request.json["Order_id"]
+    # status = (
+    #     request.json["status"]
+    #     if "status" in request.json and request.json["status"]
+    #     else None
+    # )
+    # food_list = (
+    #     request.json["Food_id_num"].split(", ")
+    #     if "Food_id-num" in request.json and request.json["Food_id-num"].split(", ")
+    #     else None
+    # )
+    if food_id_num:
+        food_list =  food_id_num.split(", ")
 
     if status:
         query = "UPDATE `order` SET `Status` = %s WHERE `Order_id` = %s"
