@@ -521,7 +521,7 @@ food_parser_add.add_argument('food_id',required=True ,type=int, help='food ç·¨è™
 food_parser_add.add_argument('restaurant_id', required=True,type=int, help='restaurant id')
 food_parser_add.add_argument('name', type=str, help='food name')
 food_parser_add.add_argument('price', type=int, help='food price')
-food_parser_add.add_argument('available', type=int, help='food available')
+food_parser_add.add_argument('available', type=int, default=0,help='food available')
 food_parser_add.add_argument('url', type=str, help='restaurant url')
 food_parser_add.add_argument('style', type=str, help='restaurant style')
 food_parser_add.add_argument('note', type=str, help='food note ')
@@ -540,8 +540,12 @@ class Search_Food(Resource):
 class Add_Food(Resource):
     @api.doc(parser=food_parser_add)
     def post(self):
+        query={}
         info = food_parser_add.parse_args()
-        return add_food(info)
+        for k in info.keys():
+            if info[k] is not None:
+                query[k]=info[k]
+        return add_food(query)
 
 @api_add_ns.route('/check/')
 class Check(Resource):
@@ -553,9 +557,14 @@ class Check(Resource):
 class User_update(Resource):
     @api.doc(parser=food_parser_add)
     def patch(self):
+        
         info = food_parser_add.parse_args()
+        query={}
+        for k in info.keys():
+            if info[k] is not None:
+                query[k]=info[k]
         # info=request.form.to_dict()
-        return update_food(info)
+        return update_food(query)
 
 # D delete the whole grouop given group_id
 @api_add_ns.route('/delete_food')
