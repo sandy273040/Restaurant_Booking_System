@@ -475,7 +475,7 @@ class customer_food_favorite_R(Resource):
         Customer_id = args["Customer_id"]
         Restaurant_id = args["Restaurant_id"]
         Food_id = args["Food_id"]
-        return get_food(Customer_id, Restaurant_id, Food_id)
+        return get_ffood(Customer_id, Restaurant_id, Food_id)
 
 
 # C create user
@@ -487,19 +487,19 @@ class customer_food_favorite_C(Resource):
         Customer_id = args["Customer_id"]
         Restaurant_id = args["Restaurant_id"]
         Food_id = args["Food_id"]
-        return create_food(Customer_id, Restaurant_id, Food_id)
+        return create_ffood(Customer_id, Restaurant_id, Food_id)
 
 
 # D delete user
 @api_ns_CFF.route("/<int:Customer_id>/<int:Restaurant_id>/<int:Food_id>")
-class customer_food_favorite_RA(Resource):
+class customer_food_favorite_D(Resource):
     @api.doc(parser=parser_CF)
     def delete(self, Customer_id, Restaurant_id, Food_id):
         args = parser_CF.parse_args()
         Customer_id = args["Customer_id"]
         Restaurant_id = args["Restaurant_id"]
         Food_id = args["Food_id"]
-        return delete_food(Customer_id, Restaurant_id, Food_id)
+        return delete_ffood(Customer_id, Restaurant_id, Food_id)
 
 
 api_ns_CRF = api.namespace("/customer_restaurant_favorite", description="顧客喜愛餐廳清單")
@@ -514,35 +514,35 @@ class customer_restaurant_favorite_RA(Resource):
 
 # R Read user
 @api_ns_CRF.route("/<int:Customer_id>/<int:Restaurant_id>")
-class customer_restaurant_favorite_RA(Resource):
+class customer_restaurant_favorite_R(Resource):
     @api.doc(parser=parser_CF)
     def get(self, Customer_id, Restaurant_id):
         args = parser_CF.parse_args()
         Customer_id = args["Customer_id"]
         Restaurant_id = args["Restaurant_id"]
-        return get_restaurant(Customer_id, Restaurant_id)
+        return get_frestaurant(Customer_id, Restaurant_id)
 
 
 # C create user
 @api_ns_CRF.route("/<int:Customer_id>/<int:Restaurant_id>")
-class customer_restaurant_favorite_RA(Resource):
+class customer_restaurant_favorite_C(Resource):
     @api.doc(parser=parser_CF)
     def post(self, Customer_id, Restaurant_id):
         args = parser_CF.parse_args()
         Customer_id = args["Customer_id"]
         Restaurant_id = args["Restaurant_id"]
-        return create_restaurant(Customer_id, Restaurant_id)
+        return create_frestaurant(Customer_id, Restaurant_id)
 
 
 # D delete user
 @api_ns_CRF.route("/<int:Customer_id>/<int:Restaurant_id>")
-class customer_restaurant_favorite_RA(Resource):
+class customer_restaurant_favorite_D(Resource):
     @api.doc(parser=parser_CF)
     def delete(self, Customer_id, Restaurant_id):
         args = parser_CF.parse_args()
         Customer_id = args["Customer_id"]
         Restaurant_id = args["Restaurant_id"]
-        return delete_restaurant(Customer_id, Restaurant_id)
+        return delete_frestaurant(Customer_id, Restaurant_id)
 
 
 # IKai
@@ -588,7 +588,7 @@ class Check(Resource):
 class User_update(Resource):
     @api.doc(parser=food_parser_add)
     def patch(self):
-        
+
         info = food_parser_add.parse_args()
         query={}
         for k in info.keys():
