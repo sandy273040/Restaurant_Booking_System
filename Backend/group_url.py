@@ -475,7 +475,7 @@ class customer_food_favorite_R(Resource):
         Customer_id = args["Customer_id"]
         Restaurant_id = args["Restaurant_id"]
         Food_id = args["Food_id"]
-        return get_ffoodfCustomer_id, Restaurant_id, Food_id)
+        return get_ffood(Customer_id, Restaurant_id, Food_id)
 
 
 # C create user
@@ -588,7 +588,7 @@ class Check(Resource):
 class User_update(Resource):
     @api.doc(parser=food_parser_add)
     def patch(self):
-        
+
         info = food_parser_add.parse_args()
         query={}
         for k in info.keys():
