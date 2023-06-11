@@ -39,7 +39,7 @@ def get_customer_food_favorite():
 
 # R Read user
 # @app.route('/customer_food_favorite/<int:Customer_id>/<int:Restaurant_id>/<int:Food_id>', methods=['GET'])
-def get_food(Customer_id, Restaurant_id, Food_id):
+def get_ffood(Customer_id, Restaurant_id, Food_id):
     query = "SELECT * FROM customer_food_favorite WHERE Customer_id = %s AND Restaurant_id = %s  AND Food_id = %s"
     cursor.execute(query, (Customer_id, Restaurant_id, Food_id))
     result = cursor.fetchone()
@@ -57,7 +57,7 @@ def get_food(Customer_id, Restaurant_id, Food_id):
 
 # C create user
 # @app.route('/customer_food_favorite', methods=['POST'])
-def create_food(Customer_id, Restaurant_id, Food_id):
+def create_ffood(Customer_id, Restaurant_id, Food_id):
     Customer_id = request.json["Customer_id"]
     Restaurant_id = request.json["Restaurant_id"]
     Food_id = request.json["Food_id"]
@@ -70,7 +70,7 @@ def create_food(Customer_id, Restaurant_id, Food_id):
 
 # D delete user
 # @app.route('/customer_food_favorite/<int:Customer_id>/<int:Restaurant_id>/<int:Food_id>', methods=['DELETE'])
-def delete_food(Customer_id, Restaurant_id, Food_id):
+def delete_ffood(Customer_id, Restaurant_id, Food_id):
     query = "DELETE FROM customer_food_favorite WHERE Customer_id = %s AND Restaurant_id = %s  AND Food_id = %s"
     cursor.execute(query, (Customer_id, Restaurant_id, Food_id))
     cnx.commit()
