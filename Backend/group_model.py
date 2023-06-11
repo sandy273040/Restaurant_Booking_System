@@ -66,34 +66,36 @@ def create_group(name):
 
 
 # create a registration
-def add_user(group_id, customer_name, account):
+def add_user(group_id, account):
     if not group_id:
         return jsonify({"KeyError": "Please input valid group id"})
-    if not customer_name:
-        return jsonify({"KeyError": "Please input valid customer name"})
     if not account:
         return jsonify({"KeyError": "Please input valid account"})
-
-    cursor.execute(
-        "SELECT Customer_id FROM customer WHERE Name=(%s) AND Account=(%s)",
-        (customer_name, account),
-    )  # "SELECT Custimer_id FROM custimer WHERE Name=(%s)"
+    
+    query = f"SELECT Customer_id FROM customer WHERE `Account` = '{account}'"
+    cursor.execute(query)
     query_res = cursor.fetchone()
 
     if not query_res:
         return jsonify(
             {
-                "KeyError": "Please check the exisistence of group_id, customer_name or account name"
+                "KeyError": "Please check the exisistence of group_id or account name"
             }
         )
     else:
         customer_id = query_res[0]
 
+    # Check Registration Duplication
+    query = f"SELECT * FROM registration WHERE Group_id={group_id} AND Customer_id={customer_id}"
+    cursor.execute(query)
+    registration_check = cursor.fetchall()
+    if registration_check: return jsonify({"Integrity Error": "The user has already joined the group"})
+    
     query = "INSERT INTO registration (Group_id, Customer_id) VALUES (%s, %s)"
     cursor.execute(query, (group_id, customer_id))
     cnx.commit()
 
-    return jsonify({"message": f"Customer {customer_name} added to Group {group_id}"})
+    return jsonify({"message": f"Customer {customer_id} added to Group {group_id}"})
 
 
 # U update group name given group id and new name

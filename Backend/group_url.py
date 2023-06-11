@@ -66,7 +66,6 @@ class Group_create(Resource):
         return create_group(group_name)
 
 register_args = reqparse.RequestParser()
-register_args.add_argument("customer_name", type=str, help="顧客名稱")
 register_args.add_argument("group_id", type=int, help="群組代號")
 register_args.add_argument("account", type=str, help="帳戶名稱")
 
@@ -76,10 +75,9 @@ class User_add(Resource):
     @api.doc(parser=register_args)
     def post(self):
         args = register_args.parse_args()
-        customer_name = args['customer_name']
         group_id = args['group_id']
         account = args['account']
-        return add_user(group_id, customer_name, account)
+        return add_user(group_id, account)
 
 gp_name_args.add_argument("group_id", type=int, help="群組代號")
 
