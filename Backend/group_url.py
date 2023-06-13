@@ -451,7 +451,7 @@ api.add_namespace(add_ns)
 
 
 ## TsaiTzung's block
-api_ns_CFF = api.namespace("/customer_food_favorite", description="顧客喜愛食物清單")
+api_ns_CFF = api.namespace("customer_food_favorite", description="顧客喜愛食物清單")
 
 parser_CF = reqparse.RequestParser()
 parser_CF.add_argument('Customer_id', type=int, help='Customer_id' )
@@ -459,42 +459,31 @@ parser_CF.add_argument('Restaurant_id', type=int, help='Restaurant_id')
 parser_CF.add_argument('Food_id', type=int, help='Food_id')
 
 
-# RA Read All customer_food_favorite
-@api_ns_CFF.route("/")
-class customer_food_favorite_RA(Resource):
-    def get(self):
-        return get_customer_food_favorite()
+# RA R C D customer_food_favorite
+# @api_ns_CFF.route("/<int:Customer_id>/<int:Restaurant_id>/<int:Food_id>")
+@api_ns_CFF.route("")
+class customer_food_favorite_R_C_D(Resource):
+    # def get(self):
+    #     return get_customer_food_favorite()
 
-
-# R Read user
-@api_ns_CFF.route("/<int:Customer_id>/<int:Restaurant_id>/<int:Food_id>")
-class customer_food_favorite_R(Resource):
     @api.doc(parser=parser_CF)
-    def get(self, Customer_id, Restaurant_id, Food_id):
+    def get(self):
         args = parser_CF.parse_args()
         Customer_id = args["Customer_id"]
         Restaurant_id = args["Restaurant_id"]
         Food_id = args["Food_id"]
         return get_ffood(Customer_id, Restaurant_id, Food_id)
 
-
-# C create user
-@api_ns_CFF.route("/<int:Customer_id>/<int:Restaurant_id>/<int:Food_id>")
-class customer_food_favorite_C(Resource):
     @api.doc(parser=parser_CF)
-    def post(self, Customer_id, Restaurant_id, Food_id):
+    def post(self):
         args = parser_CF.parse_args()
         Customer_id = args["Customer_id"]
         Restaurant_id = args["Restaurant_id"]
         Food_id = args["Food_id"]
         return create_ffood(Customer_id, Restaurant_id, Food_id)
 
-
-# D delete user
-@api_ns_CFF.route("/<int:Customer_id>/<int:Restaurant_id>/<int:Food_id>")
-class customer_food_favorite_D(Resource):
     @api.doc(parser=parser_CF)
-    def delete(self, Customer_id, Restaurant_id, Food_id):
+    def delete(self):
         args = parser_CF.parse_args()
         Customer_id = args["Customer_id"]
         Restaurant_id = args["Restaurant_id"]
@@ -502,43 +491,31 @@ class customer_food_favorite_D(Resource):
         return delete_ffood(Customer_id, Restaurant_id, Food_id)
 
 
-api_ns_CRF = api.namespace("/customer_restaurant_favorite", description="顧客喜愛餐廳清單")
+api_ns_CRF = api.namespace("customer_restaurant_favorite", description="顧客喜愛餐廳清單")
 
+# RA R C D customer_restaurant_favorite
+# @api_ns_CRF.route("/<int:Customer_id>/<int:Restaurant_id>")
+@api_ns_CRF.route("")
+class customer_restaurant_favorite_R_C_D(Resource):
+    # def get(self):
+    #     return get_customer_restaurant_favorite()
 
-# RA Read All customer_restaurant_favorite
-@api_ns_CRF.route("/")
-class customer_restaurant_favorite_RA(Resource):
-    def get(self):
-        return get_customer_restaurant_favorite()
-
-
-# R Read user
-@api_ns_CRF.route("/<int:Customer_id>/<int:Restaurant_id>")
-class customer_restaurant_favorite_R(Resource):
     @api.doc(parser=parser_CF)
-    def get(self, Customer_id, Restaurant_id):
+    def get(self):
         args = parser_CF.parse_args()
         Customer_id = args["Customer_id"]
         Restaurant_id = args["Restaurant_id"]
         return get_frestaurant(Customer_id, Restaurant_id)
 
-
-# C create user
-@api_ns_CRF.route("/<int:Customer_id>/<int:Restaurant_id>")
-class customer_restaurant_favorite_C(Resource):
     @api.doc(parser=parser_CF)
-    def post(self, Customer_id, Restaurant_id):
+    def post(self):
         args = parser_CF.parse_args()
         Customer_id = args["Customer_id"]
         Restaurant_id = args["Restaurant_id"]
         return create_frestaurant(Customer_id, Restaurant_id)
 
-
-# D delete user
-@api_ns_CRF.route("/<int:Customer_id>/<int:Restaurant_id>")
-class customer_restaurant_favorite_D(Resource):
     @api.doc(parser=parser_CF)
-    def delete(self, Customer_id, Restaurant_id):
+    def delete(self):
         args = parser_CF.parse_args()
         Customer_id = args["Customer_id"]
         Restaurant_id = args["Restaurant_id"]
