@@ -40,7 +40,7 @@ def get_customer_food_favorite():
 # R Read user
 # @app.route('/customer_food_favorite/<int:Customer_id>/<int:Restaurant_id>/<int:Food_id>', methods=['GET'])
 def get_ffood(Customer_id, Restaurant_id, Food_id):
-    query = "SELECT * FROM customer_food_favorite WHERE Customer_id = %s AND Restaurant_id = %s  AND Food_id = %s"
+    query = "SELECT customer_food_favorite.Customer_id,customer_food_favorite.Restaurant_id, customer_food_favorite.Food_id, food.Name FROM customer_food_favorite LEFT JOIN food ON customer_food_favorite.Restaurant_id=food.Restaurant_id AND customer_food_favorite.Food_id=food.Food_id WHERE customer_food_favorite.Customer_id = %s AND customer_food_favorite.Restaurant_id = %s  AND customer_food_favorite.Food_id = %s"
     cursor.execute(query, (Customer_id, Restaurant_id, Food_id))
     result = cursor.fetchone()
 
@@ -49,6 +49,7 @@ def get_ffood(Customer_id, Restaurant_id, Food_id):
             "Customer_id": result[0],
             "Restaurant_id": result[1],
             "Food_id": result[2],
+            "Food_name": result[3]
         }
         return jsonify(food_data)
     else:
@@ -58,9 +59,9 @@ def get_ffood(Customer_id, Restaurant_id, Food_id):
 # C create user
 # @app.route('/customer_food_favorite', methods=['POST'])
 def create_ffood(Customer_id, Restaurant_id, Food_id):
-    Customer_id = request.json["Customer_id"]
-    Restaurant_id = request.json["Restaurant_id"]
-    Food_id = request.json["Food_id"]
+    # Customer_id = request.json["Customer_id"]
+    # Restaurant_id = request.json["Restaurant_id"]
+    # Food_id = request.json["Food_id"]
     query = "INSERT INTO customer_food_favorite (Customer_id, Restaurant_id, Food_id) VALUES (%s, %s, %s)"
     cursor.execute(query, (Customer_id, Restaurant_id, Food_id))
     cnx.commit()
