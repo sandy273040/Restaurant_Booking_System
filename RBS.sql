@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: rbs
+-- Host: 127.0.0.1    Database: DBFP
 -- ------------------------------------------------------
 -- Server version	8.0.32
 
@@ -18,6 +18,10 @@
 --
 -- Table structure for table `customer`
 --
+
+CREATE DATABASE DBFP;
+USE DBFP;
+
 
 DROP TABLE IF EXISTS `customer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

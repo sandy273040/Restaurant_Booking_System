@@ -3,13 +3,6 @@ from flask import Flask, jsonify, request
 from config import *
 app = Flask(__name__)
 
-# Define MySQL connection information
-# cnx = mysql.connector.connect(
-#   host="localhost",
-#   user="debian-sys-maint",
-#   password="4pF6qdBHyyWHBH97",
-#   database="DBFP"
-# )
 cnx = mysql.connector.connect(
     user=DATABASE_USERNAME,
     password=DATABASE_PASSWORD,
